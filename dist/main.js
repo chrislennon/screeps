@@ -21,11 +21,12 @@ module.exports.loop = function () {
     // }
 
     var roleNeed = {
-        builder: 1,
+        builder: 4,
         harvester: 6,
-        upgrader: 4,
+        upgrader: 6,
         road: 2,
-        repairer: 2
+        repairer: 3,
+        heavyHarvester: 1,
     };
 
     var roleCount = {
@@ -34,17 +35,20 @@ module.exports.loop = function () {
         upgrader:  _.sum(Game.creeps, (c) => c.memory.role == 'upgrader'),
         road: _.sum(Game.creeps, (c) => c.memory.role == 'road'),
         repairer: _.sum(Game.creeps, (c) => c.memory.role == 'repairer'),
+        heavyHarvester: _.sum(Game.creeps, (c) => c.memory.role == 'heavyHarvester'),
     }; 
 
     for (var role in roleCount){
         console.log(role + ' - Want: ' + roleNeed[role] + ' Have: ' + roleCount[role]);
+        
+        if (roleCount[role] < roleNeed[role] && role == 'heavyHarvester') Game.spawns['Spawn1'].spawnCreep( [WORK, WORK, WORK, WORK, CARRY, MOVE], role + Game.time.toString(), {memory:{role, type: 'heavy'}} );
         if (roleCount[role] < roleNeed[role]) Game.spawns['Spawn1'].spawnCreep( [WORK, CARRY, MOVE], role + Game.time.toString(), {memory:{role}} );
     }
     
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
+        if(creep.memory.role == 'harvester' || creep.memory.role == 'heavyHarvester') {
             roleHarvester.run(creep);
         }
         if(creep.memory.role == 'upgrader') {
