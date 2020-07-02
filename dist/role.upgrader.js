@@ -18,10 +18,7 @@ var roleUpgrader = {
             }
         }
         else {
-
-            var sources = creep.room.find(FIND_SOURCES);
-            var source = sources[1];
-            source = Game.getObjectById('5efd16c279be2b431a577fd7');
+            var source = Game.getObjectById('5efd56cffd0fefa443406660');
             if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
             }

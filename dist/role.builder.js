@@ -21,15 +21,26 @@ var roleBuilder = {
             }; 
 	         
             if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                
+                if(creep.build(Game.getObjectById('5efe34e96e420968611c0dbd')) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(Game.getObjectById('5efe34e96e420968611c0dbd'), {visualizePathStyle: {stroke: '#ffffff'}});
                 }
+                // if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                //     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                // }
             }
 	    }
 	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+            var target = creep.room.find(FIND_SOURCES)[0];
+            // var target = creep.room.find(FIND_STRUCTURES, {
+            //     filter: (structure) => {
+            //         return (structure.structureType == STRUCTURE_CONTAINER) && 
+            //                 structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            //     }
+            // })[0];
+            target = Game.getObjectById('5efd8681342f53048b529460');
+            if(creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
 	    }
 	}
