@@ -18,9 +18,18 @@ var roleUpgrader = {
             }
         }
         else {
-            var source = Game.getObjectById('5efd56cffd0fefa443406660');
-            if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+            var target;
+            if (creep.memory.pickup) {
+                target = Game.getObjectById(creep.memory.pickup);
+                if(creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+                }
+            }
+            else {
+                target = creep.room.find(FIND_SOURCES)[1];
+                if(creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+                }
             }
         }
 	}

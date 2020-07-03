@@ -29,7 +29,7 @@ module.exports.loop = function () {
 
     var roles = {
         builder: {
-            want: 8,
+            want: 0,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'builder'),
             script: 'builder',
             size: creepSize.standard,
@@ -47,12 +47,12 @@ module.exports.loop = function () {
             }
         },
         upgrader: {
-            want: 3,
+            want: 2,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'upgrader'),
             script: 'upgrader',
-            size: creepSize.heavy,
+            size: creepSize.standard,
             spawn: function() {
-                Game.spawns['Spawn1'].spawnCreep( creepSize.heavy, 'upgrader' + Game.time.toString(), {memory:{role: 'upgrader'}} );
+                Game.spawns['Spawn1'].spawnCreep( creepSize.standard, 'upgrader' + Game.time.toString(), {memory:{role: 'upgrader'}} );
             }
         },
         road: {
@@ -104,7 +104,7 @@ module.exports.loop = function () {
             },
         },
         carry: {
-            want: 5,
+            want: 0,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'carry'),
             script: function(creep) {
                 roleCarry.run(creep);
@@ -122,7 +122,7 @@ module.exports.loop = function () {
             },
         },
         carryA: {
-            want: 4,
+            want: 0,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'carryA'),
             script: function(creep) {
                 roleCarry.run(creep);

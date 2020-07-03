@@ -22,12 +22,12 @@ var roleBuilder = {
 	         
             if(targets.length) {
                 
-                if(creep.build(Game.getObjectById('5efe34e96e420968611c0dbd')) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(Game.getObjectById('5efe34e96e420968611c0dbd'), {visualizePathStyle: {stroke: '#ffffff'}});
-                }
-                // if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                //     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                // if(creep.build(Game.getObjectById('5efe34e96e420968611c0dbd')) == ERR_NOT_IN_RANGE) {
+                //     creep.moveTo(Game.getObjectById('5efe34e96e420968611c0dbd'), {visualizePathStyle: {stroke: '#ffffff'}});
                 // }
+                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                }
             }
 	    }
 	    else {
