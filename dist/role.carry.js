@@ -1,3 +1,5 @@
+const utils = require('./utils');
+
 var roleCarry = {
 
     /** @param {Creep} creep **/
@@ -14,28 +16,13 @@ var roleCarry = {
 	    }
 
 	    if(creep.memory.carrying) {
-            var target = creep.memory.dropoff ? Game.getObjectById(creep.memory.dropoff): false;
-            if (!target || target.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
-                target = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION ||
-                                structure.structureType == STRUCTURE_SPAWN ||
-                                structure.structureType == STRUCTURE_TOWER) && 
-                                structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-                    }
-                })[0]
-            }
-
-            if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
-            };
+            var target = creep.memory.dropoff ? creep.memory.dropoff : false;
+            if (!Game.getObjectById(target).store.getFreeCapacity()) target = false 
+            utils.placeInContainer(creep, target, true);
         }
         else {
-            var target = creep.memory.pickup ? creep.memory.pickup : '5efd16c279be2b431a577fd7';
-            pickup = Game.getObjectById(target);
-            if(creep.withdraw(pickup, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(pickup, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
+            var target = creep.memory.pickup ? creep.memory.pickup : false;
+            utils.getFromContainer(creep, target, false);
         }
 	}
 };

@@ -1,3 +1,5 @@
+const utils = require('./utils');
+
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
@@ -18,19 +20,9 @@ var roleUpgrader = {
             }
         }
         else {
-            var target;
-            if (creep.memory.pickup) {
-                target = Game.getObjectById(creep.memory.pickup);
-                if(creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
-            }
-            else {
-                target = creep.room.find(FIND_SOURCES)[1];
-                if(creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
-            }
+            var target = creep.memory.pickup ? creep.memory.pickup: false;
+            target = '5f00f7fcf440363b29879826';
+            utils.getFromContainer(creep, target, true);
         }
 	}
 };

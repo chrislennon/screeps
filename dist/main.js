@@ -29,7 +29,7 @@ module.exports.loop = function () {
 
     var roles = {
         builder: {
-            want: 0,
+            want: 6,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'builder'),
             script: 'builder',
             size: creepSize.standard,
@@ -47,12 +47,12 @@ module.exports.loop = function () {
             }
         },
         upgrader: {
-            want: 2,
+            want: 3,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'upgrader'),
             script: 'upgrader',
-            size: creepSize.standard,
+            size: creepSize.heavy,
             spawn: function() {
-                Game.spawns['Spawn1'].spawnCreep( creepSize.standard, 'upgrader' + Game.time.toString(), {memory:{role: 'upgrader'}} );
+                Game.spawns['Spawn1'].spawnCreep( creepSize.heavy, 'upgrader' + Game.time.toString(), {memory:{role: 'upgrader'}} );
             }
         },
         road: {
@@ -65,12 +65,21 @@ module.exports.loop = function () {
             }
         },
         repairer: {
-            want: 2,
+            want: 3,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'repairer'),
             script: 'repairer',
             size: creepSize.standard,
             spawn: function() {
                 Game.spawns['Spawn1'].spawnCreep( creepSize.standard, 'repairer' + Game.time.toString(), {memory:{role: 'repairer'}} );
+            }
+        },
+        repairerA: {
+            want: 3,
+            have: _.sum(Game.creeps, (c) => c.memory.role == 'repairerA'),
+            script: 'repairer',
+            size: creepSize.standard,
+            spawn: function() {
+                Game.spawns['Spawn1'].spawnCreep( creepSize.standard, 'repairerA' + Game.time.toString(), {memory:{role: 'repairerA'}} );
             }
         },
         heavyHarvester: {
@@ -82,14 +91,14 @@ module.exports.loop = function () {
                 Game.spawns['Spawn1'].spawnCreep( creepSize.heavy, 'heavyHarvester' + Game.time.toString(), {
                     memory:{
                         role: 'heavyHarvester',
-                        dropoff: '5efd16c279be2b431a577fd7',
+                        dropoff: '5f00b9bfe62a985f30fb024c',
                         node: '5bbcacff9099fc012e636716',
                     }
                 });
             },
         },
         heavyHarvesterA: {
-            want: 2,
+            want: 3,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'heavyHarvesterA'),
             script: 'harvester',
             size: creepSize.heavy,
@@ -97,14 +106,14 @@ module.exports.loop = function () {
                 Game.spawns['Spawn1'].spawnCreep( creepSize.heavy, 'heavyHarvesterA' + Game.time.toString(), {
                     memory:{
                         role: 'heavyHarvesterA',
-                        dropoff: '5efd8681342f53048b529460',
+                        dropoff: '5effb887c92744c2f9884259',
                         node: '5bbcacff9099fc012e636717',
                     }
                 });
             },
         },
         carry: {
-            want: 0,
+            want: 4,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'carry'),
             script: function(creep) {
                 roleCarry.run(creep);
@@ -115,14 +124,14 @@ module.exports.loop = function () {
                     'carry' + Game.time.toString(), {
                     memory:{
                         role: 'carry',
-                        dropoff: '5efd56cffd0fefa443406660',
-                        pickup: '5efd16c279be2b431a577fd7',
+                        dropoff: '5f00f7fcf440363b29879826',
+                        pickup: '5f00b9bfe62a985f30fb024c',
                     }
                 });
             },
         },
         carryA: {
-            want: 0,
+            want: 6,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'carryA'),
             script: function(creep) {
                 roleCarry.run(creep);
@@ -134,7 +143,7 @@ module.exports.loop = function () {
                     memory:{
                         role: 'carryA',
                         dropoff: '5efb7bee45c0bd352fe9db12',
-                        pickup: '5efd8681342f53048b529460',
+                        pickup: '5effb887c92744c2f9884259',
                     }
                 });
             },
@@ -165,7 +174,7 @@ module.exports.loop = function () {
         if(creep.memory.role == 'hauler') {
             roleHauler.run(creep);
         }
-        if(creep.memory.role == 'repairer') {
+        if(creep.memory.role == 'repairer' || creep.memory.role == 'repairerA') {
             roleRepairer.run(creep);
         }
         if(creep.memory.role == 'carry' || creep.memory.role == 'carryA') {

@@ -1,3 +1,5 @@
+const utils = require('./utils');
+
 var roleRepairer = {
   /** @param {Creep} creep **/
   run: function(creep) {
@@ -9,7 +11,7 @@ var roleRepairer = {
       creep.carry.energy < creep.carryCapacity
     ) {
       creep.memory.repairing = false;
-      creep.say("🔄 R: Hrv");
+      creep.say("⛏ R: Hrv");
     } else if (
       !creep.memory.repairing &&
       creep.carry.energy == creep.carryCapacity
@@ -19,9 +21,20 @@ var roleRepairer = {
     }
 
     if (creep.memory.repairing) {
-      const targets = creep.room.find(FIND_STRUCTURES, {
-        filter: object => (object.hits < object.hitsMax) && !(object.structureType==STRUCTURE_WALL || object.structureType==STRUCTURE_RAMPART)
-      });
+      var targets;
+      if (creep.memory.role == "repairerA") {
+        targets = creep.room.find(FIND_STRUCTURES, {
+          filter: object => (object.hits < object.hitsMax) && object.structureType==STRUCTURE_CONTAINER
+        });
+        if (!targets.length) targets = creep.room.find(FIND_STRUCTURES, {
+          filter: object => (object.hits < object.hitsMax) && !(object.structureType==STRUCTURE_WALL || object.structureType==STRUCTURE_RAMPART)
+        });
+      }
+      else {
+        targets = creep.room.find(FIND_STRUCTURES, {
+          filter: object => (object.hits < object.hitsMax) && !(object.structureType==STRUCTURE_WALL || object.structureType==STRUCTURE_RAMPART)
+        });
+      }
       targets.sort((a, b) => a.hits - b.hits);
       if (targets.length) {
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -32,10 +45,8 @@ var roleRepairer = {
         }
       }
     } else {
-      var sources = creep.room.find(FIND_SOURCES);
-      if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[1], { visualizePathStyle: { stroke: "#ffaa00" } });
-      }
+      var target = creep.memory.pickup ? creep.memory.pickup: false;
+      utils.getFromContainer(creep, target, true);
     }
   }
 };
