@@ -22,7 +22,7 @@ var roleBuilder = {
             } else {
                 targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             }; 
-            creep.memory.priority = '5f00a8fd6e1c5069ce4e346d';
+            creep.memory.priority = false;
 	        if (creep.memory.priority) targets[0] = Game.getObjectById(creep.memory.priority);
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {

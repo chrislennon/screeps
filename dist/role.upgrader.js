@@ -20,8 +20,8 @@ var roleUpgrader = {
             }
         }
         else {
+            creep.memory.pickup = '5f00f7fcf440363b29879826';
             var target = creep.memory.pickup ? creep.memory.pickup: false;
-            target = '5f00f7fcf440363b29879826';
             utils.getFromContainer(creep, target, true);
         }
 	}

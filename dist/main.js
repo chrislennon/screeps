@@ -74,7 +74,7 @@ module.exports.loop = function () {
             }
         },
         repairerA: {
-            want: 3,
+            want: 5,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'repairerA'),
             script: 'repairer',
             size: creepSize.standard,
@@ -131,7 +131,7 @@ module.exports.loop = function () {
             },
         },
         carryA: {
-            want: 6,
+            want: 4,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'carryA'),
             script: function(creep) {
                 roleCarry.run(creep);

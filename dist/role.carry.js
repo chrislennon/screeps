@@ -1,30 +1,25 @@
 const utils = require('./utils');
 
-var roleCarry = {
-
+var roleHarvester = {
+    
     /** @param {Creep} creep **/
     run: function(creep) {
-
-        
-        if(creep.memory.carrying && creep.store[RESOURCE_ENERGY] == 0) {
-            creep.memory.carrying = false;
-            creep.say('🔄 PickUp');
-	    }
-	    if(!creep.memory.carrying && creep.store.getFreeCapacity() == 0) {
-	        creep.memory.carrying = true;
-	        creep.say('⚡ DropOff');
-	    }
-
-	    if(creep.memory.carrying) {
-            var target = creep.memory.dropoff ? creep.memory.dropoff : false;
-            if (!Game.getObjectById(target).store.getFreeCapacity()) target = false 
-            utils.placeInContainer(creep, target, true);
+	    if(creep.store.getFreeCapacity() > 0) {
+            var target;
+            if (creep.memory.node) target = Game.getObjectById(creep.memory.node);
+            else target = creep.room.find(FIND_SOURCES)[1];
+            
+            if(creep.harvest(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
         }
         else {
-            var target = creep.memory.pickup ? creep.memory.pickup : false;
-            utils.getFromContainer(creep, target, false);
+            var target;
+            if (creep.memory.dropoff) target = creep.memory.dropoff;
+            if (creep.memory.role == 'heavyHarvester') utils.placeInContainer(creep, target, false);
+            else utils.placeInContainer(creep, target, true);
         }
 	}
 };
 
-module.exports = roleCarry;
+module.exports = roleHarvester;
