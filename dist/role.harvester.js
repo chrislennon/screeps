@@ -1,5 +1,5 @@
 const utils = require(`./utils`);
-const Creep = require(`creep`);
+const Creep = require(`./creep`);
 
 class Harvester extends Creep {
   constructor(name = `harvester`, nodeId = false, containerId = false) {

@@ -1,5 +1,5 @@
 const utils = require(`./utils`);
-const Creep = require(`creep`);
+const Creep = require(`./creep`);
 
 class Hauler extends Creep {
   constructor(name = `hauler`, from = false, to = false) {
