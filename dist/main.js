@@ -29,7 +29,7 @@ module.exports.loop = function () {
 
     var roles = {
         builder: {
-            want: 6,
+            want: 4,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'builder'),
             script: 'builder',
             size: creepSize.standard,
@@ -38,7 +38,7 @@ module.exports.loop = function () {
             }
         },
         harvester: {
-            want: 4,
+            want: 6,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'harvester'),
             script: 'harvester',
             size: creepSize.standard,
@@ -65,7 +65,7 @@ module.exports.loop = function () {
             }
         },
         repairer: {
-            want: 3,
+            want: 2,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'repairer'),
             script: 'repairer',
             size: creepSize.standard,
@@ -74,7 +74,7 @@ module.exports.loop = function () {
             }
         },
         repairerA: {
-            want: 5,
+            want: 2,
             have: _.sum(Game.creeps, (c) => c.memory.role == 'repairerA'),
             script: 'repairer',
             size: creepSize.standard,
@@ -178,7 +178,7 @@ module.exports.loop = function () {
             roleRepairer.run(creep);
         }
         if(creep.memory.role == 'carry' || creep.memory.role == 'carryA') {
-            roles['carry'].script(creep);
+            roleCarry.run(creep);
         }
     }
 }

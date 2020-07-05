@@ -15,6 +15,7 @@ var roleHarvester = {
         }
         else {
             var target;
+            if (creep.memory.role == 'harvester') creep.memory.dropoff = '5effb887c92744c2f9884259';
             if (creep.memory.dropoff) target = creep.memory.dropoff;
             if (creep.memory.role == 'heavyHarvester') utils.placeInContainer(creep, target, false);
             else utils.placeInContainer(creep, target, true);
