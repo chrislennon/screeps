@@ -2,9 +2,9 @@ const utils = require(`./utils`);
 const Creep = require(`creep`);
 
 class Repairer extends Creep {
-  constructor() {
-    const roleName = `repairer`;
-    const memory = { pickup: false, focus: false };
+  constructor(name = `repairer`, focusType = false) {
+    const roleName = name;
+    const memory = { pickup: false, focus: focusType };
     super(roleName, memory);
     this.size = this.sizes.standard;
     this.script = function (creep) {
@@ -27,22 +27,16 @@ class Repairer extends Creep {
 
       if (creep.memory.repairing) {
         var targets;
-        if (creep.memory.role == `repairerA`) {
+        // #1 'Focus' building
+        if (creep.memory.focus) {
           targets = creep.room.find(FIND_STRUCTURES, {
             filter: object =>
               object.hits < object.hitsMax &&
-              object.structureType == STRUCTURE_CONTAINER,
+              object.structureType == creep.memory.focus,
           });
-          if (!targets.length)
-            targets = creep.room.find(FIND_STRUCTURES, {
-              filter: object =>
-                object.hits < object.hitsMax &&
-                !(
-                  object.structureType == STRUCTURE_WALL ||
-                  object.structureType == STRUCTURE_RAMPART
-                ),
-            });
-        } else {
+        }
+        // #2 Other buildings - No roads, Walls
+        else {
           targets = creep.room.find(FIND_STRUCTURES, {
             filter: object =>
               object.hits < object.hitsMax &&
@@ -51,8 +45,14 @@ class Repairer extends Creep {
                 object.structureType == STRUCTURE_RAMPART
               ),
           });
+          // #3 All other buildinds
+          if (!targets.length) {
+            targets = creep.room.find(FIND_STRUCTURES, {
+              filter: object => object.hits < object.hitsMax,
+            });
+          }
         }
-        targets.sort((a, b) => a.hits - b.hits);
+
         if (targets.length) {
           if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
             creep.moveTo(targets[0], {
@@ -60,6 +60,8 @@ class Repairer extends Creep {
             });
             creep.say(`🚧 repair`);
           }
+        } else {
+          creep.say(`🚫 Repair`);
         }
       } else {
         var target = creep.memory.pickup ? creep.memory.pickup : false;

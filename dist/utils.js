@@ -36,33 +36,56 @@ function getFromContainer(creep, containerId = false, harvest = false) {
 
 function placeInContainer(creep, containerId = false, fillHQ = true) {
   var targets = [];
-  if (containerId) targets.push(Game.getObjectById(containerId));
-  else if (fillHQ)
+  if (containerId) {
+    targets.push(Game.getObjectById(containerId));
+  }
+
+  if (!targets.length && fillHQ) {
     targets = creep.room.find(FIND_STRUCTURES, {
       filter: structure => {
         return (
           (structure.structureType == STRUCTURE_EXTENSION ||
-            structure.structureType == STRUCTURE_SPAWN ||
-            structure.structureType == STRUCTURE_TOWER) &&
+            structure.structureType == STRUCTURE_SPAWN) &&
           structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
         );
       },
     });
-  else
+  } else {
     targets = creep.room.find(FIND_STRUCTURES, {
       filter: structure => {
         return (
-          structure.structureType == STRUCTURE_CONTAINER &&
+          structure.store &&
           structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
         );
       },
     });
+  }
 
   if (targets.length) {
-    var x = 0;
     targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
-    if (creep.transfer(targets[x], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(targets[x], { visualizePathStyle: { stroke: `#ffaa00` } });
+    if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
+    }
+  } else {
+    var lastDitch = true;
+    if (lastDitch) {
+      if (creep.memory.role == `harvester`) {
+        targets.push(Game.getObjectById(`5f01a0b4c1bac4718785075c`));
+        if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(targets[0], {
+            visualizePathStyle: { stroke: `#ffffff` },
+          });
+        }
+      } else {
+        targets.push(Game.getObjectById(`5efe2c0c640121b6c12e98a6`));
+        if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(targets[0], {
+            visualizePathStyle: { stroke: `#ffffff` },
+          });
+        }
+      }
+    } else {
+      creep.say(`⚡🚫Space`);
     }
   }
 }

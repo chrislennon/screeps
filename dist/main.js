@@ -1,32 +1,39 @@
 const roles = require(`roles`);
 
 module.exports.loop = function () {
-  // var tower = Game.getObjectById('3708c5cfa3ed1195707528b9');
-  // if(tower) {
-  //     var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-  //         filter: (structure) => structure.hits < structure.hitsMax
-  //     });
-  //     if(closestDamagedStructure) {
-  //         tower.repair(closestDamagedStructure);
-  //     }
+  var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
+  if (tower) {
+    var closestDamagedStructure = tower.pos.findClosestByRange(
+      FIND_STRUCTURES,
+      {
+        filter: structure => structure.hits < structure.hitsMax,
+      },
+    );
+    if (closestDamagedStructure) {
+      tower.repair(closestDamagedStructure);
+    }
 
-  //     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-  //     if(closestHostile) {
-  //         tower.attack(closestHostile);
-  //     }
-  // }
+    var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    if (closestHostile) {
+      tower.attack(closestHostile);
+    }
+  }
 
   var creepRoles = {
+    harvester: {
+      want: 4,
+      class: new roles.harvester(
+        `harvester`,
+        `5bbcacff9099fc012e636717`,
+        `5effb887c92744c2f9884259`,
+      ),
+    },
     builder: {
       want: 4,
       class: new roles.builder(),
     },
-    harvester: {
-      want: 6,
-      class: new roles.harvester(),
-    },
     upgrader: {
-      want: 3,
+      want: 1,
       class: new roles.upgrader(),
     },
     road: {
@@ -34,12 +41,12 @@ module.exports.loop = function () {
       class: new roles.builder(),
     },
     repairer: {
-      want: 2,
+      want: 1,
       class: new roles.repairer(),
     },
     repairerA: {
-      want: 2,
-      class: new roles.repairer(),
+      want: 1,
+      class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
     },
     heavyHarvester: {
       want: 1,
@@ -57,8 +64,24 @@ module.exports.loop = function () {
         `5effb887c92744c2f9884259`,
       ),
     },
+    superHarvesterA: {
+      want: 1,
+      class: new roles.harvester(
+        `superHarvesterA`,
+        `5bbcacff9099fc012e636717`,
+        `5effb887c92744c2f9884259`,
+      ),
+    },
+    superHarvesterZ: {
+      want: 1,
+      class: new roles.harvester(
+        `superHarvesterZ`,
+        `5bbcacff9099fc012e636716`,
+        `5f00b9bfe62a985f30fb024c`,
+      ),
+    },
     hauler: {
-      want: 3,
+      want: 2,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
@@ -66,7 +89,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 3,
+      want: 2,
       class: new roles.hauler(
         `haulerA`,
         `5effb887c92744c2f9884259`,
@@ -86,8 +109,10 @@ module.exports.loop = function () {
         ` Have: ` +
         creepRoles[role].class.have,
     );
-    if (creepRoles[role].class.have < creepRoles[role].want)
+    if (creepRoles[role].class.have < creepRoles[role].want) {
+      console.log(`spawining ${role}`);
       creepRoles[role].class.spawn();
+    }
   }
   console.log(
     `-------------------------------------------------------------------`,
@@ -96,12 +121,25 @@ module.exports.loop = function () {
   for (var name in Game.creeps) {
     var creep = Game.creeps[name];
 
+    // if (name == `heavyHarvester19604326`) {
+    //   creep.say(`test`);
+    //   console.log(creep.pos.x, creep.pos.y);
+    //   console.log(`harrvester ${!(creep.memory.role == `superHarvesterA`)}`);
+    //   console.log(`x: ${creep.pos.x == 5}`);
+    //   console.log(`y: ${creep.pos.y == 35}`);
+    // }
+
+    // if (!(creep.memory.role == `superHarvesterA`) && creep.pos.x == 5 && creep.pos.y == 35) {
+    //   creep.say(`Im moving!`);
+    //   console.log(`I'm moving`);
+    //   creep.moveTo(5,33);
+    // }
+
     try {
       creepRoles[creep.memory.role].class.script(creep);
     } catch (e) {
+      console.log(e);
       console.log(`Do not know the role: ${creep.memory.role}`);
     }
-    // if (roles[creep.memory.role]) roles[creep.memory.role].class.script(creep);
-    // else console.log(`Do not know the role: ${creep.memory.role}`);
   }
 };

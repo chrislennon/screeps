@@ -8,15 +8,6 @@ class Hauler extends Creep {
     super(roleName, memory);
     this.size = this.sizes.carry;
     this.script = function (creep) {
-      // if (creep.toString().includes('carryA')) {
-      //     console.log(`setting ${creep} from ${creep.memory.role} to carryA`);
-      //     creep.memory.role = 'carryA';
-
-      // }
-      // else {
-      //     console.log(`setting ${creep} from ${creep.memory.role} to carry`);
-      //     creep.memory.role = 'carry';
-      // }
       var target;
       if (creep.store.getFreeCapacity() > 0) {
         if (creep.memory.pickup) target = creep.memory.pickup;
