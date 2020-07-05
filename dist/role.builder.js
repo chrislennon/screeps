@@ -2,9 +2,9 @@ const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
 class Builder extends Creep {
-  constructor(name = `builder`, focusType = false) {
+  constructor(name = `builder`, focusType = false, pickup = false) {
     const roleName = name;
-    const memory = { focus: focusType };
+    const memory = { focus: focusType, pickup: pickup };
     super(roleName, memory);
     this.size = this.sizes.standard;
     this.script = function (creep) {
@@ -34,8 +34,9 @@ class Builder extends Creep {
           });
         }
       } else {
-        creep.memory.pickup = `5f01095e0633715ad0a12e29`;
+        creep.memory.pickup = `5f00b9bfe62a985f30fb024c`;
         target = creep.memory.pickup ? creep.memory.pickup : false;
+        if (Game.getObjectById(creep.memory.pickup).store.getUsedCapacity(RESOURCE_ENERGY) == 0) target = false; 
         utils.getFromContainer(creep, target, true);
       }
     };

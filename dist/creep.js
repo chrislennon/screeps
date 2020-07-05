@@ -13,7 +13,7 @@ class Creep {
     this.sizes = {
       standard: [WORK, CARRY, MOVE],
       heavy: [WORK, WORK, WORK, WORK, CARRY, MOVE],
-      superheavy: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
+      superheavy: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
       carry: [CARRY, CARRY, MOVE],
     };
   }

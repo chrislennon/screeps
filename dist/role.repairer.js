@@ -2,9 +2,9 @@ const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
 class Repairer extends Creep {
-  constructor(name = `repairer`, focusType = false) {
+  constructor(name = `repairer`, focusType = false, pickup = false) {
     const roleName = name;
-    const memory = { pickup: false, focus: focusType };
+    const memory = { pickup: pickup, focus: focusType };
     super(roleName, memory);
     this.size = this.sizes.standard;
     this.script = function (creep) {

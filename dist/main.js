@@ -30,11 +30,11 @@ module.exports.loop = function () {
     },
     builder: {
       want: 4,
-      class: new roles.builder(),
+      class: new roles.builder(`builder`, false, '5f00b9bfe62a985f30fb024c'),
     },
     upgrader: {
       want: 1,
-      class: new roles.upgrader(),
+      class: new roles.upgrader(`5f00f7fcf440363b29879826`),
     },
     road: {
       want: 0,
@@ -42,18 +42,18 @@ module.exports.loop = function () {
     },
     repairer: {
       want: 1,
-      class: new roles.repairer(),
+      class: new roles.repairer(`repairer`, false, `5f00b9bfe62a985f30fb024c`),
     },
     repairerA: {
       want: 1,
       class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
     },
     heavyHarvester: {
-      want: 1,
+      want: 0,
       class: new roles.harvester(
         `heavyHarvester`,
-        `5bbcacff9099fc012e636716`,
-        `5f00b9bfe62a985f30fb024c`,
+        `5bbcacff9099fc012e636717`,
+        `5effb887c92744c2f9884259`,
       ),
     },
     heavyHarvesterA: {
@@ -81,7 +81,7 @@ module.exports.loop = function () {
       ),
     },
     hauler: {
-      want: 2,
+      want: 4,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
@@ -89,7 +89,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 2,
+      want: 5,
       class: new roles.hauler(
         `haulerA`,
         `5effb887c92744c2f9884259`,
