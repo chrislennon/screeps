@@ -1,12 +1,3 @@
-// repairer
-// get from (any) container , fall back to harvest (could be bad)
-
-// dedicated upgrader
-// get from specific cotainer
-
-// builder
-// get from (any) container,  fall back to harvest (could be bad)
-
 function getFromContainer(creep, containerId = false, harvest = false) {
   var targets = [];
   if (containerId) {

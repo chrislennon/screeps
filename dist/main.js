@@ -1,8 +1,4 @@
-var roleHarvester = require(`role.harvester`);
-var roleUpgrader = require(`role.upgrader`);
-var roleBuilder = require(`role.builder`);
-var roleRepairer = require(`role.repairer`);
-var roleCarry = require(`role.carry`);
+const rolesL = require(`roles`);
 
 module.exports.loop = function () {
   // var tower = Game.getObjectById('3708c5cfa3ed1195707528b9');
@@ -20,170 +16,58 @@ module.exports.loop = function () {
   //     }
   // }
 
-  var creepSize = {
-    standard: [WORK, CARRY, MOVE],
-    heavy: [WORK, WORK, WORK, WORK, CARRY, MOVE],
-    carry: [CARRY, CARRY, MOVE],
-  };
-
   var roles = {
     builder: {
       want: 4,
-      have: _.sum(Game.creeps, c => c.memory.role == `builder`),
-      script: `builder`,
-      size: creepSize.standard,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.standard,
-          `builder` + Game.time.toString(),
-          { memory: { role: `builder` } },
-        );
-      },
+      class: new rolesL.builder(),
     },
     harvester: {
-      want: 6,
-      have: _.sum(Game.creeps, c => c.memory.role == `harvester`),
-      script: `harvester`,
-      size: creepSize.standard,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.standard,
-          `harvester` + Game.time.toString(),
-          { memory: { role: `harvester` } },
-        );
-      },
+      want: 4,
+      class: new rolesL.harvester(),
     },
     upgrader: {
       want: 3,
-      have: _.sum(Game.creeps, c => c.memory.role == `upgrader`),
-      script: `upgrader`,
-      size: creepSize.heavy,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.heavy,
-          `upgrader` + Game.time.toString(),
-          { memory: { role: `upgrader` } },
-        );
-      },
+      class: new rolesL.upgrader(),
     },
     road: {
       want: 0,
-      have: _.sum(Game.creeps, c => c.memory.role == `road`),
-      script: `road`,
-      size: creepSize.standard,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.standard,
-          `road` + Game.time.toString(),
-          { memory: { role: `road` } },
-        );
-      },
+      class: new rolesL.builder(),
     },
     repairer: {
       want: 2,
-      have: _.sum(Game.creeps, c => c.memory.role == `repairer`),
-      script: `repairer`,
-      size: creepSize.standard,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.standard,
-          `repairer` + Game.time.toString(),
-          { memory: { role: `repairer` } },
-        );
-      },
+      class: new rolesL.repairer(),
     },
     repairerA: {
       want: 2,
-      have: _.sum(Game.creeps, c => c.memory.role == `repairerA`),
-      script: `repairer`,
-      size: creepSize.standard,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.standard,
-          `repairerA` + Game.time.toString(),
-          { memory: { role: `repairerA` } },
-        );
-      },
+      class: new rolesL.repairer(),
     },
     heavyHarvester: {
       want: 1,
-      have: _.sum(Game.creeps, c => c.memory.role == `heavyHarvester`),
-      script: `harvester`,
-      size: creepSize.heavy,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.heavy,
-          `heavyHarvester` + Game.time.toString(),
-          {
-            memory: {
-              role: `heavyHarvester`,
-              dropoff: `5f00b9bfe62a985f30fb024c`,
-              node: `5bbcacff9099fc012e636716`,
-            },
-          },
-        );
-      },
+      class: new rolesL.harvester(
+        `5bbcacff9099fc012e636716`,
+        `5f00b9bfe62a985f30fb024c`,
+      ),
     },
     heavyHarvesterA: {
       want: 3,
-      have: _.sum(Game.creeps, c => c.memory.role == `heavyHarvesterA`),
-      script: `harvester`,
-      size: creepSize.heavy,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.heavy,
-          `heavyHarvesterA` + Game.time.toString(),
-          {
-            memory: {
-              role: `heavyHarvesterA`,
-              dropoff: `5effb887c92744c2f9884259`,
-              node: `5bbcacff9099fc012e636717`,
-            },
-          },
-        );
-      },
+      class: new rolesL.harvester(
+        `5bbcacff9099fc012e636717`,
+        `5effb887c92744c2f9884259`,
+      ),
     },
-    carry: {
-      want: 4,
-      have: _.sum(Game.creeps, c => c.memory.role == `carry`),
-      script: function (creep) {
-        roleCarry.run(creep);
-      },
-      size: creepSize.carry,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.carry,
-          `carry` + Game.time.toString(),
-          {
-            memory: {
-              role: `carry`,
-              dropoff: `5f00f7fcf440363b29879826`,
-              pickup: `5f00b9bfe62a985f30fb024c`,
-            },
-          },
-        );
-      },
+    hauler: {
+      want: 3,
+      class: new rolesL.hauler(
+        `5f00b9bfe62a985f30fb024c`,
+        `5f00f7fcf440363b29879826`,
+      ),
     },
-    carryA: {
-      want: 4,
-      have: _.sum(Game.creeps, c => c.memory.role == `carryA`),
-      script: function (creep) {
-        roleCarry.run(creep);
-      },
-      size: creepSize.carry,
-      spawn: function () {
-        Game.spawns[`Spawn1`].spawnCreep(
-          creepSize.carry,
-          `carryA` + Game.time.toString(),
-          {
-            memory: {
-              role: `carryA`,
-              dropoff: `5efb7bee45c0bd352fe9db12`,
-              pickup: `5effb887c92744c2f9884259`,
-            },
-          },
-        );
-      },
+    haulerA: {
+      want: 3,
+      class: new rolesL.hauler(
+        `5effb887c92744c2f9884259`,
+        `5efb7bee45c0bd352fe9db12`,
+      ),
     },
   };
 
@@ -192,9 +76,13 @@ module.exports.loop = function () {
   );
   for (var role in roles) {
     console.log(
-      role + ` - Want: ` + roles[role].want + ` Have: ` + roles[role].have,
+      role +
+        ` - Want: ` +
+        roles[role].want +
+        ` Have: ` +
+        roles[role].class.have,
     );
-    if (roles[role].have < roles[role].want) roles[role].spawn();
+    if (roles[role].class.have < roles[role].want) roles[role].class.spawn();
   }
   console.log(
     `-------------------------------------------------------------------`,
@@ -202,27 +90,13 @@ module.exports.loop = function () {
 
   for (var name in Game.creeps) {
     var creep = Game.creeps[name];
-    if (
-      creep.memory.role == `harvester` ||
-      creep.memory.role == `heavyHarvester` ||
-      creep.memory.role == `heavyHarvesterA`
-    ) {
-      roleHarvester.run(creep);
+
+    try {
+      roles[creep.memory.role].class.script(creep);
+    } catch (e) {
+      console.log(`Do not know the role: ${creep.memory.role}`);
     }
-    if (creep.memory.role == `upgrader`) {
-      roleUpgrader.run(creep);
-    }
-    if (creep.memory.role == `builder`) {
-      roleBuilder.run(creep);
-    }
-    if (creep.memory.role == `road`) {
-      roleBuilder.run(creep);
-    }
-    if (creep.memory.role == `repairer` || creep.memory.role == `repairerA`) {
-      roleRepairer.run(creep);
-    }
-    if (creep.memory.role == `carry` || creep.memory.role == `carryA`) {
-      roleCarry.run(creep);
-    }
+    // if (roles[creep.memory.role]) roles[creep.memory.role].class.script(creep);
+    // else console.log(`Do not know the role: ${creep.memory.role}`);
   }
 };
