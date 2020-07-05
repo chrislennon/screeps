@@ -1,4 +1,4 @@
-const rolesL = require(`roles`);
+const roles = require(`roles`);
 
 module.exports.loop = function () {
   // var tower = Game.getObjectById('3708c5cfa3ed1195707528b9');
@@ -16,55 +16,59 @@ module.exports.loop = function () {
   //     }
   // }
 
-  var roles = {
+  var creepRoles = {
     builder: {
       want: 4,
-      class: new rolesL.builder(),
+      class: new roles.builder(),
     },
     harvester: {
-      want: 4,
-      class: new rolesL.harvester(),
+      want: 6,
+      class: new roles.harvester(),
     },
     upgrader: {
       want: 3,
-      class: new rolesL.upgrader(),
+      class: new roles.upgrader(),
     },
     road: {
       want: 0,
-      class: new rolesL.builder(),
+      class: new roles.builder(),
     },
     repairer: {
       want: 2,
-      class: new rolesL.repairer(),
+      class: new roles.repairer(),
     },
     repairerA: {
       want: 2,
-      class: new rolesL.repairer(),
+      class: new roles.repairer(),
     },
     heavyHarvester: {
       want: 1,
-      class: new rolesL.harvester(
+      class: new roles.harvester(
+        `heavyHarvester`,
         `5bbcacff9099fc012e636716`,
         `5f00b9bfe62a985f30fb024c`,
       ),
     },
     heavyHarvesterA: {
       want: 3,
-      class: new rolesL.harvester(
+      class: new roles.harvester(
+        `heavyHarvesterA`,
         `5bbcacff9099fc012e636717`,
         `5effb887c92744c2f9884259`,
       ),
     },
     hauler: {
       want: 3,
-      class: new rolesL.hauler(
+      class: new roles.hauler(
+        `hauler`,
         `5f00b9bfe62a985f30fb024c`,
         `5f00f7fcf440363b29879826`,
       ),
     },
     haulerA: {
       want: 3,
-      class: new rolesL.hauler(
+      class: new roles.hauler(
+        `haulerA`,
         `5effb887c92744c2f9884259`,
         `5efb7bee45c0bd352fe9db12`,
       ),
@@ -74,15 +78,16 @@ module.exports.loop = function () {
   console.log(
     `-------------------------------------------------------------------`,
   );
-  for (var role in roles) {
+  for (var role in creepRoles) {
     console.log(
       role +
         ` - Want: ` +
-        roles[role].want +
+        creepRoles[role].want +
         ` Have: ` +
-        roles[role].class.have,
+        creepRoles[role].class.have,
     );
-    if (roles[role].class.have < roles[role].want) roles[role].class.spawn();
+    if (creepRoles[role].class.have < creepRoles[role].want)
+      creepRoles[role].class.spawn();
   }
   console.log(
     `-------------------------------------------------------------------`,
@@ -92,7 +97,7 @@ module.exports.loop = function () {
     var creep = Game.creeps[name];
 
     try {
-      roles[creep.memory.role].class.script(creep);
+      creepRoles[creep.memory.role].class.script(creep);
     } catch (e) {
       console.log(`Do not know the role: ${creep.memory.role}`);
     }
