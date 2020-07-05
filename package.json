@@ -9,9 +9,17 @@
     "grunt": "^1.1.0",
     "grunt-screeps": "^1.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-screeps": "^2.0.0",
+    "eslint-plugin-unicorn": "^20.1.0",
+    "prettier": "^2.0.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint dist/ --fix",
+    "prettier": "prettier dist/ --write"
   },
   "author": "",
   "license": "ISC"

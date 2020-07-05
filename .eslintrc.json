@@ -1,0 +1,32 @@
+{
+    "env": {
+      "es6": true,
+      "node": true,
+      "screeps/screeps": true
+    },
+    "extends": "eslint:recommended",
+    "plugins": [
+      "prettier",
+      "unicorn",
+      "screeps"
+    ],
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 10
+    },
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "quotes": [
+        "error",
+        "backtick"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-console": 0
+    }
+  }

@@ -1,6 +1,9 @@
 # Screeps credentials
 .config.js
 
+#Screeps Autocomplete
+ScreepsAutocomplete/
+
 # Logs
 logs
 *.log

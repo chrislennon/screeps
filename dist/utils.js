@@ -10,13 +10,13 @@
 function getFromContainer(creep, containerId = false, harvest = false) {
   var targets = [];
   if (containerId) {
-    if (Game.getObjectById(containerId).store.getUsedCapacity(
-        RESOURCE_ENERGY
-      ) > 0) {
+    if (
+      Game.getObjectById(containerId).store.getUsedCapacity(RESOURCE_ENERGY) > 0
+    ) {
       targets.push(Game.getObjectById(containerId));
     } else {
       targets = creep.room.find(FIND_STRUCTURES, {
-        filter: (structure) => {
+        filter: structure => {
           return (
             structure.structureType == STRUCTURE_CONTAINER &&
             structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
@@ -27,20 +27,18 @@ function getFromContainer(creep, containerId = false, harvest = false) {
   }
 
   if (targets.length) {
-    var x = 0;
     // targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
-    if (creep.withdraw(targets[x], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(targets[x], { visualizePathStyle: { stroke: "#ffaa00" } });
+    if (creep.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
     }
   } else if (harvest) {
     targets = creep.room.find(FIND_SOURCES);
     //targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
-    var x = 0;
-    if (creep.harvest(targets[x], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(targets[x], { visualizePathStyle: { stroke: "#ffaa00" } });
+    if (creep.harvest(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
     }
   } else {
-    creep.say("I am IDLE");
+    creep.say(`I am IDLE`);
     creep.moveTo(18, 32);
   }
 }
@@ -50,7 +48,7 @@ function placeInContainer(creep, containerId = false, fillHQ = true) {
   if (containerId) targets.push(Game.getObjectById(containerId));
   else if (fillHQ)
     targets = creep.room.find(FIND_STRUCTURES, {
-      filter: (structure) => {
+      filter: structure => {
         return (
           (structure.structureType == STRUCTURE_EXTENSION ||
             structure.structureType == STRUCTURE_SPAWN ||
@@ -61,7 +59,7 @@ function placeInContainer(creep, containerId = false, fillHQ = true) {
     });
   else
     targets = creep.room.find(FIND_STRUCTURES, {
-      filter: (structure) => {
+      filter: structure => {
         return (
           structure.structureType == STRUCTURE_CONTAINER &&
           structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
@@ -71,9 +69,9 @@ function placeInContainer(creep, containerId = false, fillHQ = true) {
 
   if (targets.length) {
     var x = 0;
-    targets = _.sortBy(targets, (s) => creep.pos.getRangeTo(s));
+    targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
     if (creep.transfer(targets[x], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(targets[x], { visualizePathStyle: { stroke: "#ffaa00" } });
+      creep.moveTo(targets[x], { visualizePathStyle: { stroke: `#ffaa00` } });
     }
   }
 }
