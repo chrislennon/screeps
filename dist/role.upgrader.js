@@ -30,7 +30,7 @@ class Upgrader extends Creep {
         }
       } else {
         var target = creep.memory.pickup ? creep.memory.pickup : false;
-        utils.getFromContainer(creep, target, true);
+        utils.getFromContainer(creep, target, false);
       }
     };
   }

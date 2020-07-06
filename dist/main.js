@@ -25,7 +25,7 @@ module.exports.loop = function () {
 
   var creepRoles = {
     harvester: {
-      want: 0,
+      want: 1,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
@@ -33,11 +33,11 @@ module.exports.loop = function () {
       ),
     },
     builder: {
-      want: 3,
-      class: new roles.builder(`builder`, false, `5f00b9bfe62a985f30fb024c`),
+      want: 4,
+      class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
     upgrader: {
-      want: 1,
+      want: 2,
       class: new roles.upgrader(`5f00f7fcf440363b29879826`),
     },
     road: {
@@ -61,7 +61,7 @@ module.exports.loop = function () {
       ),
     },
     heavyHarvesterA: {
-      want: 3,
+      want: 0,
       class: new roles.harvester(
         `heavyHarvesterA`,
         `5bbcacff9099fc012e636717`,
@@ -85,7 +85,7 @@ module.exports.loop = function () {
       ),
     },
     hauler: {
-      want: 4,
+      want: 5,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
@@ -108,6 +108,12 @@ module.exports.loop = function () {
         `5efb7bee45c0bd352fe9db12`,
       ),
     },
+    scavenger: {
+      want: 1,
+      class: new roles.hauler(
+        `scavenger`,
+      ),
+    },
     attackerA: {
       want: 1,
       class: new roles.attacker(`attackerA`),
@@ -118,7 +124,7 @@ module.exports.loop = function () {
     `-------------------------------------------------------------------`,
   );
   for (var role in creepRoles) {
-    console.log(
+    if (creepRoles[role].want > 0) console.log(
       role +
         ` - Want: ` +
         creepRoles[role].want +

@@ -28,10 +28,7 @@ var roleHarvester = {
       else target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
 
       if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
-        if (creep.memory.role == `superHarvesterA`) creep.moveTo(4, 35);
-        else if (creep.memory.role == `superHarvesterZ`) creep.moveTo(45, 10);
-        else
-          creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
+        creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
       }
     } else {
       target = creep.memory.dropoff ? creep.memory.dropoff : false;

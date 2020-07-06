@@ -16,7 +16,7 @@ class Builder extends Creep {
         creep.memory.building = true;
         creep.say(`🚧 build`);
       }
-
+      
       var target;
       if (creep.memory.building) {
         // #1 'Focus' building
