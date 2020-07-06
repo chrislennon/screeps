@@ -1,27 +1,31 @@
 const roles = require(`roles`);
 
 module.exports.loop = function () {
+  if (Game.cpu.bucket > 5000) Game.cpu.generatePixel();
+
   var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
   if (tower) {
-    var closestDamagedStructure = tower.pos.findClosestByRange(
-      FIND_STRUCTURES,
-      {
-        filter: structure => structure.hits < structure.hitsMax,
-      },
-    );
-    if (closestDamagedStructure) {
-      tower.repair(closestDamagedStructure);
-    }
-
     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (closestHostile) {
       tower.attack(closestHostile);
+    } else {
+      var closestDamagedStructure = tower.pos.findClosestByRange(
+        FIND_STRUCTURES,
+        {
+          filter: structure =>
+            structure.hits < structure.hitsMax &&
+            structure.structureType != STRUCTURE_WALL,
+        },
+      );
+      if (closestDamagedStructure) {
+        tower.repair(closestDamagedStructure);
+      }
     }
   }
 
   var creepRoles = {
     harvester: {
-      want: 4,
+      want: 0,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
@@ -29,8 +33,8 @@ module.exports.loop = function () {
       ),
     },
     builder: {
-      want: 4,
-      class: new roles.builder(`builder`, false, '5f00b9bfe62a985f30fb024c'),
+      want: 3,
+      class: new roles.builder(`builder`, false, `5f00b9bfe62a985f30fb024c`),
     },
     upgrader: {
       want: 1,
@@ -41,11 +45,11 @@ module.exports.loop = function () {
       class: new roles.builder(),
     },
     repairer: {
-      want: 1,
+      want: 0,
       class: new roles.repairer(`repairer`, false, `5f00b9bfe62a985f30fb024c`),
     },
     repairerA: {
-      want: 1,
+      want: 0,
       class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
     },
     heavyHarvester: {
@@ -89,12 +93,24 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 5,
+      want: 4,
       class: new roles.hauler(
         `haulerA`,
         `5effb887c92744c2f9884259`,
+        `5f028050541ecf6abe209242`,
+      ),
+    },
+    haulerBase: {
+      want: 1,
+      class: new roles.hauler(
+        `haulerBase`,
+        `5f028050541ecf6abe209242`,
         `5efb7bee45c0bd352fe9db12`,
       ),
+    },
+    attackerA: {
+      want: 1,
+      class: new roles.attacker(`attackerA`),
     },
   };
 
@@ -134,7 +150,9 @@ module.exports.loop = function () {
     //   console.log(`I'm moving`);
     //   creep.moveTo(5,33);
     // }
-
+    // if (creep.memory.role == `repairer` || creep.memory.role == `repairerA` || creep.memory.role == `builder` ) {
+    //   creep.memory.pickup = `5f028050541ecf6abe209242`;
+    // }
     try {
       creepRoles[creep.memory.role].class.script(creep);
     } catch (e) {

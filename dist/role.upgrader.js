@@ -9,7 +9,7 @@ class Upgrader extends Creep {
       pickup: containerId,
     };
     super(roleName, memory);
-    this.size = this.sizes.heavy;
+    this.size = this.sizes.superheavy;
     this.script = function (creep) {
       if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
         creep.memory.upgrading = false;

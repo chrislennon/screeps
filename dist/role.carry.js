@@ -9,17 +9,15 @@ class Hauler extends Creep {
     this.size = this.sizes.carry;
     this.script = function (creep) {
       var target;
-      if (creep.store.getFreeCapacity() > 0) {
+      if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         if (creep.memory.pickup) target = creep.memory.pickup;
-        utils.getFromContainer(creep, target, true); // carry has no WORK so will not be able to harvest
+        utils.getFromContainer(creep, target, false, true); // carry has no WORK so will not be able to harvest
         // seems to bepicking up and dropping to same containers
       } else {
-        if (
-          creep.memory.dropoff &&
-          Game.getObjectById(creep.memory.dropoff).getFreeCapacity > 0
-        )
-          target = creep.memory.dropoff;
-        else target = false;
+        if (creep.memory.dropoff) target = creep.memory.dropoff;
+        else {
+          target = false;
+        }
         utils.placeInContainer(creep, target, true);
       }
     };

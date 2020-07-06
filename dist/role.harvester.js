@@ -34,6 +34,7 @@ var roleHarvester = {
           creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
       }
     } else {
+      target = creep.memory.dropoff ? creep.memory.dropoff : false;
       if (
         creep.memory.role == `heavyHarvester` ||
         creep.memory.role == `heavyHarvesterA` ||
@@ -42,7 +43,7 @@ var roleHarvester = {
       ) {
         utils.placeInContainer(creep, creep.memory.dropoff, false);
       } else {
-        utils.placeInContainer(creep, false, true);
+        utils.placeInContainer(creep, target, true);
       }
     }
   },
