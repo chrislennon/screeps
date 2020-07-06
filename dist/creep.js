@@ -4,8 +4,7 @@ class Creep {
     this.memory = Object.assign({ role: name }, memory);
     this.have = _.sum(
       Game.creeps,
-      c =>
-        c.memory.role == this.name && c.ticksToLive > 100,
+      c => c.memory.role == this.name && c.ticksToLive > 100,
     );
     this.spawn = function () {
       Game.spawns[`Spawn1`].spawnCreep(

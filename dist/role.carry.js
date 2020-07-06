@@ -9,31 +9,38 @@ class Hauler extends Creep {
     this.size = this.sizes.carry;
     this.script = function (creep) {
       var target;
-
-      var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
-        filter: d => {
-          return d.resourceType == RESOURCE_ENERGY;
-        },
-      });
-
-      if (dropenergy && creep.memory.role == `scavenger`) {
-        creep.say(`get dropped`);
-        if (creep.withdraw(dropenergy, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(dropenergy);
-        }
-      }
-
-
+      //console.log(creep)
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-        if (creep.memory.pickup) target = creep.memory.pickup;
-        utils.getFromContainer(creep, target, false, true); // carry has no WORK so will not be able to harvest
-        // seems to bepicking up and dropping to same containers
-      } else {
-        if (creep.memory.dropoff) target = creep.memory.dropoff;
-        else {
-          target = false;
+        if (creep.memory.pickup) {
+          target = Game.getObjectById(creep.memory.pickup);
+          if (target && target.store) {
+            if (target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
+              //console.log('xx')
+              utils.getFromContainer(
+                creep,
+                creep.memory.pickup,
+                false,
+                false,
+                false,
+              );
+            } else {
+              utils.getFromContainer(creep, false, false, false, false);
+            }
+          } else {
+            utils.getFromContainer(creep, false, false, true, false);
+          }
         }
-        utils.placeInContainer(creep, target, true);
+      } else {
+        target = Game.getObjectById(creep.memory.dropoff);
+        if (target && target.store) {
+          if (target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+            utils.placeInContainer(creep, creep.memory.dropoff, false);
+          } else {
+            utils.placeInContainer(creep, false, false);
+          }
+        } else {
+          utils.placeInContainer(creep, false, false);
+        }
       }
     };
   }

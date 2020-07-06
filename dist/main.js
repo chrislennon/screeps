@@ -37,7 +37,7 @@ module.exports.loop = function () {
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
     upgrader: {
-      want: 2,
+      want: 1,
       class: new roles.upgrader(`5f00f7fcf440363b29879826`),
     },
     road: {
@@ -110,9 +110,7 @@ module.exports.loop = function () {
     },
     scavenger: {
       want: 1,
-      class: new roles.hauler(
-        `scavenger`,
-      ),
+      class: new roles.hauler(`scavenger`),
     },
     attackerA: {
       want: 1,
@@ -124,13 +122,14 @@ module.exports.loop = function () {
     `-------------------------------------------------------------------`,
   );
   for (var role in creepRoles) {
-    if (creepRoles[role].want > 0) console.log(
-      role +
-        ` - Want: ` +
-        creepRoles[role].want +
-        ` Have: ` +
-        creepRoles[role].class.have,
-    );
+    if (creepRoles[role].want > 0)
+      console.log(
+        role +
+          ` - Want: ` +
+          creepRoles[role].want +
+          ` Have: ` +
+          creepRoles[role].class.have,
+      );
     if (creepRoles[role].class.have < creepRoles[role].want) {
       console.log(`spawining ${role}`);
       creepRoles[role].class.spawn();

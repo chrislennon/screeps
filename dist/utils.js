@@ -3,6 +3,7 @@ function getFromContainer(
   containerId = false,
   harvest = false,
   getDropped = false,
+  forceFill = false,
 ) {
   var targets = [];
   if (containerId) {
@@ -10,15 +11,6 @@ function getFromContainer(
       Game.getObjectById(containerId).store.getUsedCapacity(RESOURCE_ENERGY) > 0
     ) {
       targets.push(Game.getObjectById(containerId));
-    } else {
-      targets = creep.room.find(FIND_STRUCTURES, {
-        filter: structure => {
-          return (
-            structure.structureType == STRUCTURE_CONTAINER &&
-            structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
-          );
-        },
-      });
     }
   }
 
@@ -27,27 +19,39 @@ function getFromContainer(
     if (creep.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
       creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
     }
-  } else if (harvest) {
+  }
+  if (!targets.length && harvest) {
     targets = creep.room.find(FIND_SOURCES);
     //targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
     if (creep.harvest(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
       creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
     }
-  } else if (getDropped) {
+  }
+  if (!targets.length && forceFill) {
+    targets = creep.room.find(FIND_STRUCTURES, {
+      filter: structure => {
+        return (
+          structure.structureType == STRUCTURE_CONTAINER &&
+          structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+        );
+      },
+    });
+    if (creep.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
+    }
+  }
+  if (!targets.length && getDropped) {
     var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
       filter: d => {
         return d.resourceType == RESOURCE_ENERGY;
       },
     });
     if (dropenergy) {
-      creep.say(`get dropped`);
+      creep.say(`⚡️ DROP`);
       if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
         creep.moveTo(dropenergy);
       }
     }
-  } else {
-    creep.say(`I am IDLE`);
-    creep.moveTo(18, 32);
   }
 }
 
