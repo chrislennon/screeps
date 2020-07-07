@@ -9,13 +9,12 @@ class Hauler extends Creep {
     this.size = this.sizes.carry;
     this.script = function (creep) {
       var target;
-      //console.log(creep)
+      if (creep.memory.role == `haulerA`) creep.memory.pickup = `5f04f184227da595c15d14f8`;
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         if (creep.memory.pickup) {
           target = Game.getObjectById(creep.memory.pickup);
           if (target && target.store) {
             if (target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
-              //console.log('xx')
               utils.getFromContainer(
                 creep,
                 creep.memory.pickup,
@@ -29,6 +28,8 @@ class Hauler extends Creep {
           } else {
             utils.getFromContainer(creep, false, false, true, false);
           }
+        } else {
+          utils.getFromContainer(creep, false, false, true, false);
         }
       } else {
         target = Game.getObjectById(creep.memory.dropoff);

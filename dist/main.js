@@ -25,19 +25,19 @@ module.exports.loop = function () {
 
   var creepRoles = {
     harvester: {
-      want: 1,
+      want: 0,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
-        `5effb887c92744c2f9884259`,
+        `5f04f184227da595c15d14f8`,
       ),
     },
     superHarvesterA: {
-      want: 1,
+      want: 0,
       class: new roles.harvester(
         `superHarvesterA`,
         `5bbcacff9099fc012e636717`,
-        `5effb887c92744c2f9884259`,
+        `5f04f184227da595c15d14f8`,
       ),
     },
     superHarvesterZ: {
@@ -69,11 +69,11 @@ module.exports.loop = function () {
       class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
     },
     heavyHarvester: {
-      want: 1,
+      want: 0,
       class: new roles.harvester(
         `heavyHarvester`,
         `5bbcacff9099fc012e636717`,
-        `5effb887c92744c2f9884259`,
+        `5f04f184227da595c15d14f8`,
       ),
     },
     heavyHarvesterA: {
@@ -96,7 +96,7 @@ module.exports.loop = function () {
       want: 4,
       class: new roles.hauler(
         `haulerA`,
-        `5effb887c92744c2f9884259`,
+        `5f04f184227da595c15d14f8`,
         `5f028050541ecf6abe209242`,
       ),
     },
@@ -112,9 +112,21 @@ module.exports.loop = function () {
       want: 1,
       class: new roles.hauler(`scavenger`),
     },
-    attackerA: {
+    attacker: {
       want: 0,
-      class: new roles.attacker(`attackerA`),
+      class: new roles.attacker(`attacker`),
+    },
+    SiteA: {
+      want: 1,
+      class: new roles.siteHarvester(`SiteA`, `standard`),
+    },
+    SiteB: {
+      want: 1,
+      class: new roles.siteHarvester(`SiteB`, `superheavy`),
+    },
+    SiteC: {
+      want: 1,
+      class: new roles.siteHarvester(`SiteC`, `heavy`),
     },
   };
 
