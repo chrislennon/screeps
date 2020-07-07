@@ -9,7 +9,6 @@ class Hauler extends Creep {
     this.size = this.sizes.carry;
     this.script = function (creep) {
       var target;
-      if (creep.memory.role == `haulerA`) creep.memory.pickup = `5f04f184227da595c15d14f8`;
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         if (creep.memory.pickup) {
           target = Game.getObjectById(creep.memory.pickup);

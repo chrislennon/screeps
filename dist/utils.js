@@ -41,13 +41,9 @@ function getFromContainer(
     }
   }
   if (!targets.length && getDropped) {
-    var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
-      filter: d => {
-        return d.resourceType == RESOURCE_ENERGY;
-      },
-    });
+    var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
     if (dropenergy) {
-      creep.say(`⚡️ DROP`);
+      creep.say(`❗ DROP`);
       if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
         creep.moveTo(dropenergy);
       }

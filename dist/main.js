@@ -85,7 +85,7 @@ module.exports.loop = function () {
       ),
     },
     hauler: {
-      want: 4,
+      want: 5,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
