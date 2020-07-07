@@ -25,15 +25,31 @@ module.exports.loop = function () {
 
   var creepRoles = {
     harvester: {
-      want: 1,
+      want: 6,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
         `5effb887c92744c2f9884259`,
       ),
     },
+    superHarvesterA: {
+      want: 1,
+      class: new roles.harvester(
+        `superHarvesterA`,
+        `5bbcacff9099fc012e636717`,
+        `5effb887c92744c2f9884259`,
+      ),
+    },
+    superHarvesterZ: {
+      want: 1,
+      class: new roles.harvester(
+        `superHarvesterZ`,
+        `5bbcacff9099fc012e636716`,
+        `5f00b9bfe62a985f30fb024c`,
+      ),
+    },
     builder: {
-      want: 4,
+      want: 0,
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
     upgrader: {
@@ -68,24 +84,8 @@ module.exports.loop = function () {
         `5effb887c92744c2f9884259`,
       ),
     },
-    superHarvesterA: {
-      want: 1,
-      class: new roles.harvester(
-        `superHarvesterA`,
-        `5bbcacff9099fc012e636717`,
-        `5effb887c92744c2f9884259`,
-      ),
-    },
-    superHarvesterZ: {
-      want: 1,
-      class: new roles.harvester(
-        `superHarvesterZ`,
-        `5bbcacff9099fc012e636716`,
-        `5f00b9bfe62a985f30fb024c`,
-      ),
-    },
     hauler: {
-      want: 5,
+      want: 2,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
@@ -93,7 +93,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 4,
+      want: 2,
       class: new roles.hauler(
         `haulerA`,
         `5effb887c92744c2f9884259`,
@@ -109,11 +109,11 @@ module.exports.loop = function () {
       ),
     },
     scavenger: {
-      want: 1,
+      want: 0,
       class: new roles.hauler(`scavenger`),
     },
     attackerA: {
-      want: 1,
+      want: 0,
       class: new roles.attacker(`attackerA`),
     },
   };
