@@ -9,6 +9,12 @@ class Hauler extends Creep {
     this.size = this.sizes.carry;
     this.script = function (creep) {
       var target;
+
+      // Remove this madness (and utils etc) with the knowlege that
+      //       creep.moveTo(target); // will be ignored
+      //       creep.move(RIGHT); // will be ignored
+      //       creep.move(LEFT); // will be executed
+
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         if (creep.memory.pickup) {
           target = Game.getObjectById(creep.memory.pickup);

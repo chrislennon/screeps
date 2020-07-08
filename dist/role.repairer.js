@@ -27,6 +27,8 @@ class Repairer extends Creep {
 
       utils.placeInContainer(creep, `5f028050541ecf6abe209242`, true);
 
+      // DECOMMISIONED VIOLENTLY AFTER TOWER WAS UNLOCKED ♥
+
       //   if (creep.memory.repairing) {
       //     var targets;
       //     // #1 'Focus' building

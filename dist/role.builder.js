@@ -25,7 +25,9 @@ class Builder extends Creep {
         }
         // #2 Other Buildings
         else {
-          target = creep.room.find(FIND_CONSTRUCTION_SITES)[0];
+          var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+          targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
+          target = targets[0];
         }
 
         if (creep.build(target) == ERR_NOT_IN_RANGE) {

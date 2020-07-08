@@ -5,20 +5,36 @@ module.exports.loop = function () {
 
   var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
   if (tower) {
+    var closestDamagedStructure = false;
     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (closestHostile) {
       tower.attack(closestHostile);
     } else {
-      var closestDamagedStructure = tower.pos.findClosestByRange(
-        FIND_STRUCTURES,
-        {
-          filter: structure =>
-            structure.hits < structure.hitsMax &&
-            structure.structureType != STRUCTURE_WALL,
-        },
-      );
-      if (closestDamagedStructure) {
-        tower.repair(closestDamagedStructure);
+      var healWalls = Memory.healWalls ? Memory.healWalls : false;
+      if (healWalls) {
+        closestDamagedStructure = tower.pos.findClosestByRange(
+          FIND_STRUCTURES,
+          {
+            filter: structure =>
+              structure.hits < structure.hitsMax,
+          },
+        );
+        if (closestDamagedStructure) {
+          tower.repair(closestDamagedStructure);
+        }
+      } else {
+        closestDamagedStructure = tower.pos.findClosestByRange(
+          FIND_STRUCTURES,
+          {
+            filter: structure =>
+              structure.hits < structure.hitsMax &&
+              structure.structureType != STRUCTURE_WALL &&
+                structure.structureType != STRUCTURE_RAMPART,
+          },
+        );
+        if (closestDamagedStructure) {
+          tower.repair(closestDamagedStructure);
+        }
       }
     }
   }
@@ -130,46 +146,42 @@ module.exports.loop = function () {
     },
   };
 
-  console.log(
-    `-------------------------------------------------------------------`,
-  );
+  var i = 0;
+  var x = 45;
+  var y = 38;
+  new RoomVisual(`E1S25`).text(`💥💥💥`, x, y + i, {
+    color: `green`,
+    font: 0.8,
+  });
+  i++;
   for (var role in creepRoles) {
-    if (creepRoles[role].want > 0)
-      console.log(
+    if (creepRoles[role].want) {
+      var color =
+        creepRoles[role].class.have < creepRoles[role].want ? `red` : `green`;
+      new RoomVisual(`E1S25`).text(
         role +
-          ` - Want: ` +
-          creepRoles[role].want +
-          ` Have: ` +
-          creepRoles[role].class.have,
+          ` - ` +
+          creepRoles[role].class.have +
+          ` / ` +
+          creepRoles[role].want,
+        x,
+        y + i,
+        { color: color, font: 0.8 },
       );
+      i++;
+    }
     if (creepRoles[role].class.have < creepRoles[role].want) {
-      console.log(`spawining ${role}`);
       creepRoles[role].class.spawn();
     }
   }
-  console.log(
-    `-------------------------------------------------------------------`,
-  );
+  new RoomVisual(`E1S25`).text(`💥💥💥`, x, y + i, {
+    color: `green`,
+    font: 0.8,
+  });
 
   for (var name in Game.creeps) {
     var creep = Game.creeps[name];
 
-    // if (name == `heavyHarvester19604326`) {
-    //   creep.say(`test`);
-    //   console.log(creep.pos.x, creep.pos.y);
-    //   console.log(`harrvester ${!(creep.memory.role == `superHarvesterA`)}`);
-    //   console.log(`x: ${creep.pos.x == 5}`);
-    //   console.log(`y: ${creep.pos.y == 35}`);
-    // }
-
-    // if (!(creep.memory.role == `superHarvesterA`) && creep.pos.x == 5 && creep.pos.y == 35) {
-    //   creep.say(`Im moving!`);
-    //   console.log(`I'm moving`);
-    //   creep.moveTo(5,33);
-    // }
-    // if (creep.memory.role == `repairer` || creep.memory.role == `repairerA` || creep.memory.role == `builder` ) {
-    //   creep.memory.pickup = `5f028050541ecf6abe209242`;
-    // }
     try {
       creepRoles[creep.memory.role].class.script(creep);
     } catch (e) {

@@ -19,33 +19,6 @@ class Harvester extends Creep {
   }
 }
 
-var roleDedicatedHarvester = {
-  /** @param {Creep} creep **/
-  run: function (creep) {
-    var target;
-    if (creep.store.getFreeCapacity() > 0) {
-      if (creep.memory.node) target = Game.getObjectById(creep.memory.node);
-      else target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-
-      if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
-      }
-    } else {
-      targets = creep.room.find(FIND_STRUCTURES, {
-        filter: structure => {
-          return structure.structureType == STRUCTURE_CONTAINER;
-        },
-      });
-      targets = _.sortBy(targets, s => creep.pos.getRangeTo(s));
-      if (target[0].store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-        utils.placeInContainer(creep, target, true);
-      } else {
-        // JUST IDLE IN SPOT 🤞🏻
-      }
-    }
-  },
-};
-
 var roleHarvester = {
   /** @param {Creep} creep **/
   run: function (creep) {

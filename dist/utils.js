@@ -41,11 +41,23 @@ function getFromContainer(
     }
   }
   if (!targets.length && getDropped) {
-    var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
-    if (dropenergy) {
-      creep.say(`❗ DROP`);
-      if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(dropenergy);
+    var tombstone = creep.pos.findClosestByPath(FIND_TOMBSTONES);
+
+    if (tombstone) {
+      // creep.say(`❗ TOMB`);
+      // console.log(tombstone.store[0]);
+      // let stored_resources = _.filter(Object.keys(tombstone), resource => tombstone.store[resource] > 0);
+      // console.log(`stored resources ${stored_resources.length}`);
+      // if (creep.withdraw(tombstone, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      //   creep.moveTo(tombstone);
+      // }
+    } else {
+      var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+      if (dropenergy) {
+        creep.say(`❗ DROP`);
+        if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(dropenergy);
+        }
       }
     }
   }
