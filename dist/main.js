@@ -41,7 +41,7 @@ module.exports.loop = function () {
 
   var creepRoles = {
     harvester: {
-      want: 0,
+      want: 2,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
@@ -101,7 +101,7 @@ module.exports.loop = function () {
       ),
     },
     hauler: {
-      want: 5,
+      want: 2,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
@@ -109,7 +109,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 4,
+      want: 2,
       class: new roles.hauler(
         `haulerA`,
         `5f04f184227da595c15d14f8`,

@@ -15,6 +15,9 @@ class Hauler extends Creep {
       //       creep.move(RIGHT); // will be ignored
       //       creep.move(LEFT); // will be executed
 
+      //creep.say('IDLE');
+      creep.moveTo(23, 30);
+
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         if (creep.memory.pickup) {
           target = Game.getObjectById(creep.memory.pickup);
@@ -36,6 +39,7 @@ class Hauler extends Creep {
         } else {
           utils.getFromContainer(creep, false, false, true, false);
         }
+
       } else {
         target = Game.getObjectById(creep.memory.dropoff);
         if (target && target.store) {
