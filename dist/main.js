@@ -15,8 +15,7 @@ module.exports.loop = function () {
         closestDamagedStructure = tower.pos.findClosestByRange(
           FIND_STRUCTURES,
           {
-            filter: structure =>
-              structure.hits < structure.hitsMax,
+            filter: structure => structure.hits < structure.hitsMax,
           },
         );
         if (closestDamagedStructure) {
@@ -29,7 +28,7 @@ module.exports.loop = function () {
             filter: structure =>
               structure.hits < structure.hitsMax &&
               structure.structureType != STRUCTURE_WALL &&
-                structure.structureType != STRUCTURE_RAMPART,
+              structure.structureType != STRUCTURE_RAMPART,
           },
         );
         if (closestDamagedStructure) {
@@ -41,7 +40,7 @@ module.exports.loop = function () {
 
   var creepRoles = {
     harvester: {
-      want: 2,
+      want: 0,
       class: new roles.harvester(
         `harvester`,
         `5bbcacff9099fc012e636717`,
@@ -54,14 +53,6 @@ module.exports.loop = function () {
         `superHarvesterA`,
         `5bbcacff9099fc012e636717`,
         `5f04f184227da595c15d14f8`,
-      ),
-    },
-    superHarvesterZ: {
-      want: 1,
-      class: new roles.harvester(
-        `superHarvesterZ`,
-        `5bbcacff9099fc012e636716`,
-        `5f00b9bfe62a985f30fb024c`,
       ),
     },
     builder: {
@@ -109,7 +100,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 2,
+      want: 4,
       class: new roles.hauler(
         `haulerA`,
         `5f04f184227da595c15d14f8`,
@@ -121,7 +112,8 @@ module.exports.loop = function () {
       class: new roles.hauler(
         `haulerBase`,
         `5f028050541ecf6abe209242`,
-        `5efb7bee45c0bd352fe9db12`,
+        false,
+        true,
       ),
     },
     scavenger: {
@@ -131,6 +123,14 @@ module.exports.loop = function () {
     attacker: {
       want: 0,
       class: new roles.attacker(`attacker`),
+    },
+    superHarvesterZ: {
+      want: 1,
+      class: new roles.harvester(
+        `superHarvesterZ`,
+        `5bbcacff9099fc012e636716`,
+        `5f00b9bfe62a985f30fb024c`,
+      ),
     },
     SiteA: {
       want: 1,

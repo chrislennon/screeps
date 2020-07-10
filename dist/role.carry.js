@@ -2,54 +2,108 @@ const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
 class Hauler extends Creep {
-  constructor(name = `hauler`, from = false, to = false) {
+  constructor(name = `hauler`, from = false, to = false, fillHQ = false) {
     const roleName = name;
-    const memory = { pickup: from, dropoff: to };
+    const memory = { pickup: from, dropoff: to, fillHq: fillHQ };
     super(roleName, memory);
     this.size = this.sizes.carry;
     this.script = function (creep) {
-      var target;
-
-      // Remove this madness (and utils etc) with the knowlege that
-      //       creep.moveTo(target); // will be ignored
-      //       creep.move(RIGHT); // will be ignored
-      //       creep.move(LEFT); // will be executed
-
-      //creep.say('IDLE');
-      creep.moveTo(23, 30);
-
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-        if (creep.memory.pickup) {
-          target = Game.getObjectById(creep.memory.pickup);
-          if (target && target.store) {
-            if (target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
-              utils.getFromContainer(
-                creep,
-                creep.memory.pickup,
-                false,
-                false,
-                false,
-              );
-            } else {
-              utils.getFromContainer(creep, false, false, false, false);
-            }
-          } else {
-            utils.getFromContainer(creep, false, false, true, false);
+        // creep.say('IDLE');
+        // creep.moveTo(23, 30);
+
+        var targetId = creep.memory.pickup ? creep.memory.pickup : false;
+        var roam = creep.memory.roam ? creep.memory.roam : false;
+        var getDropped = creep.memory.getDropped
+          ? creep.memory.getDropped
+          : false;
+        var target = Game.getObjectById(targetId);
+
+        if (target && target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
+          if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
           }
-        } else {
-          utils.getFromContainer(creep, false, false, true, false);
         }
 
-      } else {
-        target = Game.getObjectById(creep.memory.dropoff);
-        if (target && target.store) {
-          if (target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-            utils.placeInContainer(creep, creep.memory.dropoff, false);
-          } else {
-            utils.placeInContainer(creep, false, false);
+        if (!target && !roam) {
+          target = creep.room.find(FIND_STRUCTURES, {
+            filter: structure => {
+              return (
+                structure.structureType == STRUCTURE_CONTAINER &&
+                structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+              );
+            },
+          });
+          if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
           }
-        } else {
-          utils.placeInContainer(creep, false, false);
+        }
+        if (!target && getDropped) {
+          var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+          if (dropenergy) {
+            creep.say(`❗ DROP`);
+            if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
+              creep.moveTo(dropenergy);
+            }
+          }
+        }
+      } else {
+        // creep.say('IDLE');
+        // creep.moveTo(23, 30);
+
+        var targetId = creep.memory.dropoff ? creep.memory.dropoff : false;
+        var roam = creep.memory.roam ? creep.memory.roam : false;
+        var fillHq = creep.memory.fillHq ? creep.memory.fillHq : false;
+        var target = Game.getObjectById(targetId);
+
+        if (target && target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+          creep.say(`cap @ target`)
+          if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
+          }
+        }
+
+        var targets = [];
+        if ((!target || target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) && fillHq) {
+          // console.log(`${target} - ${target.store.getFreeCapacity(RESOURCE_ENERGY) > 0} - ${fillHq}`)
+          creep.say(`fillHQ`);
+          targets = creep.room.find(FIND_STRUCTURES, {
+            filter: structure => {
+              return (
+                (structure.structureType == STRUCTURE_EXTENSION ||
+                  structure.structureType == STRUCTURE_SPAWN ||
+                  structure.structureType == STRUCTURE_TOWER) &&
+                structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+              );
+            },
+          });
+          if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
+          }
+        }
+        if (!targets.length && roam) {
+          creep.say(`Fill Struct`);
+          targets = creep.room.find(FIND_STRUCTURES, {
+            filter: structure => {
+              return (
+                (structure.structureType == STRUCTURE_EXTENSION ||
+                  structure.structureType == STRUCTURE_SPAWN ||
+                  structure.structureType == STRUCTURE_CONTAINER ||
+                  structure.structureType == STRUCTURE_TOWER ||
+                  structure.structureType == STRUCTURE_STORAGE) &&
+                structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0 &&
+                structure.id != creep.memory.dropoff &&
+                structure.id != creep.memory.pickup
+              );
+            },
+          });
+          if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target[0], {
+              visualizePathStyle: { stroke: `#ffaa00` },
+            });
+          } else {
+            creep.say(`what do`);
+          }
         }
       }
     };
