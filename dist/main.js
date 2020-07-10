@@ -38,6 +38,13 @@ module.exports.loop = function () {
     }
   }
 
+  var link = Game.getObjectById(`5f089f8eb0ab38329161a05a`);
+  var linkDest = Game.getObjectById(`5f08801e025bfc410887c361`);
+  if (link) {
+    link.transferEnergy(linkDest);
+  }
+
+
   var creepRoles = {
     harvester: {
       want: 0,
@@ -100,7 +107,7 @@ module.exports.loop = function () {
       ),
     },
     haulerA: {
-      want: 4,
+      want: 0,
       class: new roles.hauler(
         `haulerA`,
         `5f04f184227da595c15d14f8`,
@@ -143,6 +150,14 @@ module.exports.loop = function () {
     SiteC: {
       want: 1,
       class: new roles.siteHarvester(`SiteC`, `heavy`),
+    },
+    haulerLink: {
+      want: 1,
+      class: new roles.hauler(
+        `haulerLink`,
+        `5f08801e025bfc410887c361`,
+        `5f028050541ecf6abe209242`,
+      ),
     },
   };
 

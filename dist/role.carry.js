@@ -1,4 +1,3 @@
-const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
 class Hauler extends Creep {
@@ -8,16 +7,18 @@ class Hauler extends Creep {
     super(roleName, memory);
     this.size = this.sizes.carry;
     this.script = function (creep) {
+
+      var targetId, roam, fillHq, target, getDropped;
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         // creep.say('IDLE');
         // creep.moveTo(23, 30);
 
-        var targetId = creep.memory.pickup ? creep.memory.pickup : false;
-        var roam = creep.memory.roam ? creep.memory.roam : false;
-        var getDropped = creep.memory.getDropped
+        targetId = creep.memory.pickup ? creep.memory.pickup : false;
+        roam = creep.memory.roam ? creep.memory.roam : false;
+        getDropped = creep.memory.getDropped
           ? creep.memory.getDropped
           : false;
-        var target = Game.getObjectById(targetId);
+        target = Game.getObjectById(targetId);
 
         if (target && target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
           if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -51,13 +52,13 @@ class Hauler extends Creep {
         // creep.say('IDLE');
         // creep.moveTo(23, 30);
 
-        var targetId = creep.memory.dropoff ? creep.memory.dropoff : false;
-        var roam = creep.memory.roam ? creep.memory.roam : false;
-        var fillHq = creep.memory.fillHq ? creep.memory.fillHq : false;
-        var target = Game.getObjectById(targetId);
+        targetId = creep.memory.dropoff ? creep.memory.dropoff : false;
+        roam = creep.memory.roam ? creep.memory.roam : false;
+        fillHq = creep.memory.fillHq ? creep.memory.fillHq : false;
+        target = Game.getObjectById(targetId);
 
         if (target && target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-          creep.say(`cap @ target`)
+          creep.say(`cap @ target`);
           if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
           }
