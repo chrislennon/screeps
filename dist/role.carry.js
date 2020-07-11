@@ -18,11 +18,14 @@ class Hauler extends Creep {
         getDropped = creep.memory.getDropped
           ? creep.memory.getDropped
           : false;
-        target = Game.getObjectById(targetId);
 
+
+        target = Game.getObjectById(targetId);
         if (target && target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
           if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
+          } else if (creep.withdraw(target, RESOURCE_ENERGY) != 0) {
+            console.log(`creep: ${creep.id} - ${creep.withdraw(target, RESOURCE_ENERGY)}`);
           }
         }
 
