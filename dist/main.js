@@ -15,7 +15,9 @@ module.exports.loop = function () {
         closestDamagedStructure = tower.room.find(
           FIND_STRUCTURES,
           {
-            filter: structure => structure.hits < structure.hitsMax,
+            filter: structure => structure.hits < structure.hitsMax &&
+              structure.structureType != STRUCTURE_WALL &&
+              structure.structureType != STRUCTURE_RAMPART,
           },
         );
         if (closestDamagedStructure.length) {
@@ -64,7 +66,7 @@ module.exports.loop = function () {
       ),
     },
     builder: {
-      want: 2,
+      want: 0,
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
     upgrader: {
@@ -105,6 +107,8 @@ module.exports.loop = function () {
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
         `5f00f7fcf440363b29879826`,
+        //false,
+        false,
       ),
     },
     haulerA: {
@@ -116,7 +120,7 @@ module.exports.loop = function () {
       ),
     },
     haulerBase: {
-      want: 1,
+      want: 2,
       class: new roles.hauler(
         `haulerBase`,
         `5f028050541ecf6abe209242`,
@@ -125,7 +129,7 @@ module.exports.loop = function () {
       ),
     },
     scavenger: {
-      want: 1,
+      want: 0,
       class: new roles.hauler(`scavenger`),
     },
     attacker: {
