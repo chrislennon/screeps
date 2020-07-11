@@ -12,17 +12,18 @@ module.exports.loop = function () {
     } else {
       var healWalls = Memory.healWalls ? Memory.healWalls : false;
       if (healWalls) {
-        closestDamagedStructure = tower.pos.findClosestByRange(
+        closestDamagedStructure = tower.room.find(
           FIND_STRUCTURES,
           {
             filter: structure => structure.hits < structure.hitsMax,
           },
         );
-        if (closestDamagedStructure) {
-          tower.repair(closestDamagedStructure);
+        if (closestDamagedStructure.length) {
+          closestDamagedStructure = _.sortBy(closestDamagedStructure, s => s.hits);
+          tower.repair(closestDamagedStructure[0]);
         }
       } else {
-        closestDamagedStructure = tower.pos.findClosestByRange(
+        closestDamagedStructure = tower.room.find(
           FIND_STRUCTURES,
           {
             filter: structure =>
@@ -31,8 +32,8 @@ module.exports.loop = function () {
               structure.structureType != STRUCTURE_RAMPART,
           },
         );
-        if (closestDamagedStructure) {
-          tower.repair(closestDamagedStructure);
+        if (closestDamagedStructure.length) {
+          tower.repair(closestDamagedStructure[0]);
         }
       }
     }
@@ -99,7 +100,7 @@ module.exports.loop = function () {
       ),
     },
     hauler: {
-      want: 2,
+      want: 5,
       class: new roles.hauler(
         `hauler`,
         `5f00b9bfe62a985f30fb024c`,
