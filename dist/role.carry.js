@@ -45,7 +45,6 @@ class Hauler extends Creep {
         if (!target && getDropped) {
           var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
           if (dropenergy) {
-            console.log(dropenergy);
             creep.say(`❗ DROP`);
             if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
               creep.moveTo(dropenergy);

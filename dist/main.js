@@ -11,13 +11,12 @@ module.exports.loop = function () {
       tower.attack(closestHostile);
     } else {
       var healWalls = Memory.healWalls ? Memory.healWalls : false;
-      if (healWalls) {
+      // Memory is apparently strings 🤷‍♂️ - Lots of TODOs from this.
+      if (healWalls === `true`) {
         closestDamagedStructure = tower.room.find(
           FIND_STRUCTURES,
           {
-            filter: structure => structure.hits < structure.hitsMax &&
-              structure.structureType != STRUCTURE_WALL &&
-              structure.structureType != STRUCTURE_RAMPART,
+            filter: structure => structure.hits < structure.hitsMax,
           },
         );
         if (closestDamagedStructure.length) {
@@ -57,14 +56,6 @@ module.exports.loop = function () {
       want: 2,
       class: new roles.upgrader(`5f00f7fcf440363b29879826`),
     },
-    repairer: {
-      want: 0,
-      class: new roles.repairer(`repairer`, false, `5f00b9bfe62a985f30fb024c`),
-    },
-    repairerA: {
-      want: 0,
-      class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
-    },
     hauler: {
       want: 5,
       class: new roles.hauler(
@@ -87,10 +78,6 @@ module.exports.loop = function () {
     scavenger: {
       want: 1,
       class: new roles.hauler(`scavenger`, false, false, true, true),
-    },
-    attacker: {
-      want: 0,
-      class: new roles.attacker(`attacker`),
     },
     SiteA: {
       want: 1,
