@@ -1,9 +1,9 @@
 const Creep = require(`./creep`);
 
 class Hauler extends Creep {
-  constructor(name = `hauler`, from = false, to = false, fillHQ = false) {
+  constructor(name = `hauler`, from = false, to = false, fillHQ = false, getDropped = false) {
     const roleName = name;
-    const memory = { pickup: from, dropoff: to, fillHq: fillHQ };
+    const memory = { pickup: from, dropoff: to, fillHq: fillHQ, getDropped: getDropped};
     super(roleName, memory);
     this.size = this.sizes.carry;
     this.script = function (creep) {
@@ -25,11 +25,11 @@ class Hauler extends Creep {
           if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
           } else if (creep.withdraw(target, RESOURCE_ENERGY) != 0) {
-            console.log(`creep: ${creep.id} - ${creep.withdraw(target, RESOURCE_ENERGY)}`);
+            console.log(`creep: ${creep.name} - ${creep.withdraw(target, RESOURCE_ENERGY)}`);
           }
         }
 
-        if (!target && !roam) {
+        if (!target && roam) {
           target = creep.room.find(FIND_STRUCTURES, {
             filter: structure => {
               return (
@@ -45,6 +45,7 @@ class Hauler extends Creep {
         if (!target && getDropped) {
           var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
           if (dropenergy) {
+            console.log(dropenergy);
             creep.say(`❗ DROP`);
             if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
               creep.moveTo(dropenergy);

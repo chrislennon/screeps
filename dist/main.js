@@ -49,22 +49,6 @@ module.exports.loop = function () {
 
 
   var creepRoles = {
-    harvester: {
-      want: 0,
-      class: new roles.harvester(
-        `harvester`,
-        `5bbcacff9099fc012e636717`,
-        `5f04f184227da595c15d14f8`,
-      ),
-    },
-    superHarvesterA: {
-      want: 0,
-      class: new roles.harvester(
-        `superHarvesterA`,
-        `5bbcacff9099fc012e636717`,
-        `5f04f184227da595c15d14f8`,
-      ),
-    },
     builder: {
       want: 0,
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
@@ -72,10 +56,6 @@ module.exports.loop = function () {
     upgrader: {
       want: 2,
       class: new roles.upgrader(`5f00f7fcf440363b29879826`),
-    },
-    road: {
-      want: 0,
-      class: new roles.builder(),
     },
     repairer: {
       want: 0,
@@ -85,22 +65,6 @@ module.exports.loop = function () {
       want: 0,
       class: new roles.repairer(`repairerA`, STRUCTURE_CONTAINER),
     },
-    heavyHarvester: {
-      want: 0,
-      class: new roles.harvester(
-        `heavyHarvester`,
-        `5bbcacff9099fc012e636717`,
-        `5f04f184227da595c15d14f8`,
-      ),
-    },
-    heavyHarvesterA: {
-      want: 0,
-      class: new roles.harvester(
-        `heavyHarvesterA`,
-        `5bbcacff9099fc012e636716`,
-        `5f00b9bfe62a985f30fb024c`,
-      ),
-    },
     hauler: {
       want: 5,
       class: new roles.hauler(
@@ -109,14 +73,6 @@ module.exports.loop = function () {
         `5f00f7fcf440363b29879826`,
         //false,
         false,
-      ),
-    },
-    haulerA: {
-      want: 0,
-      class: new roles.hauler(
-        `haulerA`,
-        `5f04f184227da595c15d14f8`,
-        `5f028050541ecf6abe209242`,
       ),
     },
     haulerBase: {
@@ -130,19 +86,11 @@ module.exports.loop = function () {
     },
     scavenger: {
       want: 1,
-      class: new roles.hauler(`scavenger`),
+      class: new roles.hauler(`scavenger`, false, false, true, true),
     },
     attacker: {
       want: 0,
       class: new roles.attacker(`attacker`),
-    },
-    superHarvesterZ: {
-      want: 0,
-      class: new roles.harvester(
-        `superHarvesterZ`,
-        `5bbcacff9099fc012e636716`,
-        `5f00b9bfe62a985f30fb024c`,
-      ),
     },
     SiteA: {
       want: 1,
