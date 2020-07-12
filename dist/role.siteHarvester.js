@@ -30,7 +30,8 @@ var roleDedicatedHarvester = {
     } else {
       targets = creep.room.find(FIND_STRUCTURES, {
         filter: structure => {
-          return structure.structureType == STRUCTURE_LINK;
+          return structure.structureType == STRUCTURE_LINK || 
+          structure.structureType == STRUCTURE_CONTAINER;
         },
       });
 

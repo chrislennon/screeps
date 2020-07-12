@@ -129,7 +129,7 @@ module.exports.loop = function () {
       ),
     },
     scavenger: {
-      want: 0,
+      want: 1,
       class: new roles.hauler(`scavenger`),
     },
     attacker: {
@@ -137,7 +137,7 @@ module.exports.loop = function () {
       class: new roles.attacker(`attacker`),
     },
     superHarvesterZ: {
-      want: 1,
+      want: 0,
       class: new roles.harvester(
         `superHarvesterZ`,
         `5bbcacff9099fc012e636716`,
@@ -146,15 +146,11 @@ module.exports.loop = function () {
     },
     SiteA: {
       want: 1,
-      class: new roles.siteHarvester(`SiteA`, `standard`),
+      class: new roles.siteHarvester(`SiteA`, `superheavy`),
     },
     SiteB: {
       want: 1,
       class: new roles.siteHarvester(`SiteB`, `superheavy`),
-    },
-    SiteC: {
-      want: 1,
-      class: new roles.siteHarvester(`SiteC`, `heavy`),
     },
     haulerLink: {
       want: 1,
