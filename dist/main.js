@@ -48,8 +48,16 @@ module.exports.loop = function () {
 
 
   var creepRoles = {
-    builder: {
+    remote: {
+      want: 1,
+      class: new roles.remote(`remote`, `5bbcad0d9099fc012e6368a1`),
+    },
+    colony: {
       want: 0,
+      class: new roles.colony()
+    },
+    builder: {
+      want: 1,
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
     upgrader: {

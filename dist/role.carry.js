@@ -43,14 +43,25 @@ class Hauler extends Creep {
           }
         }
         if (!target && getDropped) {
-          var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
-          if (dropenergy) {
-            creep.say(`❗ DROP`);
-            if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
-              creep.moveTo(dropenergy);
+          var tombstone = creep.pos.findClosestByPath(FIND_TOMBSTONES);
+          if (tombstone) {
+            if (tombstone.store.getUsedCapacity() > 0) {
+              creep.say(`❗ T DROP`);
+              if (creep.pickup(tombstone) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(tombstone);
+              }
+            }
+          } else {
+            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+            if (dropenergy) {
+              creep.say(`❗ DROP`);
+              if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(dropenergy);
+              }
             }
           }
         }
+
       } else {
         // creep.say('IDLE');
         // creep.moveTo(23, 30);

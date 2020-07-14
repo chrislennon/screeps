@@ -5,6 +5,8 @@ var roleRepairer = require(`role.repairer`);
 var roleCarry = require(`role.carry`);
 var roleAttacker = require(`role.attacker`);
 var roleSiteHarvester = require(`role.siteHarvester`);
+var roleColony = require(`role.colony`);
+var roleRemote = require(`role.remote`);
 
 const Roles = {
   harvester: roleHarvester,
@@ -14,6 +16,8 @@ const Roles = {
   hauler: roleCarry,
   attacker: roleAttacker,
   siteHarvester: roleSiteHarvester,
+  colony: roleColony,
+  remote: roleRemote,
 };
 
 module.exports = Roles;

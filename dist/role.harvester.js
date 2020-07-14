@@ -1,8 +1,8 @@
 const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
-class Harvester extends Creep {
-  constructor(name = `harvester`, nodeId = false, containerId = false) {
+class Remote extends Creep {
+  constructor(name = `remote`, nodeId = false, containerId = false) {
     const memory = { node: nodeId, dropoff: containerId };
     super(name, memory);
 
@@ -46,4 +46,4 @@ var roleHarvester = {
   },
 };
 
-module.exports = Harvester;
+module.exports = Remote;
