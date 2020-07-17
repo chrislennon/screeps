@@ -1,13 +1,23 @@
 const Creep = require(`./creep`);
 
 class Hauler extends Creep {
-  constructor(name = `hauler`, from = false, to = false, fillHQ = false, getDropped = false) {
+  constructor(
+    name = `hauler`,
+    from = false,
+    to = false,
+    fillHQ = false,
+    getDropped = false,
+  ) {
     const roleName = name;
-    const memory = { pickup: from, dropoff: to, fillHq: fillHQ, getDropped: getDropped};
+    const memory = {
+      pickup: from,
+      dropoff: to,
+      fillHq: fillHQ,
+      getDropped: getDropped,
+    };
     super(roleName, memory);
     this.size = this.sizes.carry;
     this.script = function (creep) {
-
       var targetId, roam, fillHq, target, getDropped;
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
         // creep.say('IDLE');
@@ -15,17 +25,19 @@ class Hauler extends Creep {
 
         targetId = creep.memory.pickup ? creep.memory.pickup : false;
         roam = creep.memory.roam ? creep.memory.roam : false;
-        getDropped = creep.memory.getDropped
-          ? creep.memory.getDropped
-          : false;
-
+        getDropped = creep.memory.getDropped ? creep.memory.getDropped : false;
 
         target = Game.getObjectById(targetId);
         if (target && target.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
           if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target, { visualizePathStyle: { stroke: `#ffaa00` } });
           } else if (creep.withdraw(target, RESOURCE_ENERGY) != 0) {
-            console.log(`creep: ${creep.name} - ${creep.withdraw(target, RESOURCE_ENERGY)}`);
+            console.log(
+              `creep: ${creep.name} - ${creep.withdraw(
+                target,
+                RESOURCE_ENERGY,
+              )}`,
+            );
           }
         }
 
@@ -52,7 +64,9 @@ class Hauler extends Creep {
               }
             }
           } else {
-            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+            var dropenergy = creep.pos.findClosestByPath(
+              FIND_DROPPED_RESOURCES,
+            );
             if (dropenergy) {
               creep.say(`❗ DROP`);
               if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
@@ -61,7 +75,6 @@ class Hauler extends Creep {
             }
           }
         }
-
       } else {
         // creep.say('IDLE');
         // creep.moveTo(23, 30);
@@ -79,7 +92,10 @@ class Hauler extends Creep {
         }
 
         var targets = [];
-        if ((!target || target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) && fillHq) {
+        if (
+          (!target || target.store.getFreeCapacity(RESOURCE_ENERGY) > 0) &&
+          fillHq
+        ) {
           // console.log(`${target} - ${target.store.getFreeCapacity(RESOURCE_ENERGY) > 0} - ${fillHq}`)
           creep.say(`fillHQ`);
           targets = creep.room.find(FIND_STRUCTURES, {
@@ -93,7 +109,9 @@ class Hauler extends Creep {
             },
           });
           if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(targets[0], { visualizePathStyle: { stroke: `#ffaa00` } });
+            creep.moveTo(targets[0], {
+              visualizePathStyle: { stroke: `#ffaa00` },
+            });
           }
         }
         if (!targets.length && roam) {

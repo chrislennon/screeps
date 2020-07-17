@@ -7,7 +7,7 @@ class Colony extends Creep {
 
     this.size = this.sizes.standard;
     this.script = function (creep) {
-      //creep.moveTo(21,31);
+      console.log(creep);
     };
   }
 }
