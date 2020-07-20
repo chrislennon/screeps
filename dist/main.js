@@ -1,7 +1,7 @@
 const roles = require(`roles`);
 
 module.exports.loop = function () {
-  if (Game.cpu.bucket > 5000) Game.cpu.generatePixel();
+  // if (Game.cpu.bucket > 5000) Game.cpu.generatePixel();
 
   var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
   if (tower) {
@@ -56,13 +56,15 @@ module.exports.loop = function () {
       want: 2,
       class: new roles.builder(`builder`, false, `5f028050541ecf6abe209242`),
     },
+    remoteHarv: {
+      want: 2,
+      class: new roles.harvester(`remoteHarv`, `5bbcad0d9099fc012e6368a1`, false),
+    },
     remoteBuilder: {
-      want: 0,
-      class: new roles.builder(
+      want: 1,
+      class: new roles.remoteBuilder(
         `remoteBuilder`,
-        false,
-        `5f028050541ecf6abe209242`,
-        true,
+        `5bbcad0d9099fc012e6368a1`,
       ),
     },
     upgrader: {

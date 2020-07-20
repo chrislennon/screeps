@@ -32,7 +32,7 @@ var roleHarvester = {
       creep.say(`🚧 build`);
     }
 
-    console.log(creep.memory.building);
+    // console.log(creep.memory.building);
 
     if (creep.memory.building) {
       if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
