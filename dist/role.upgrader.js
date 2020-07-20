@@ -2,8 +2,8 @@ const utils = require(`./utils`);
 const Creep = require(`./creep`);
 
 class Upgrader extends Creep {
-  constructor(containerId = false) {
-    const roleName = `upgrader`;
+  constructor(name =`upgrader`, containerId = false) {
+    const roleName = name;
     const memory = {
       controller: `5bbcacff9099fc012e636715`,
       pickup: containerId,

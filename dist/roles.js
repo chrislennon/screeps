@@ -8,6 +8,7 @@ var roleSiteHarvester = require(`role.siteHarvester`);
 var roleColony = require(`role.colony`);
 var roleRemote = require(`role.remote`);
 var roleRemoteBuilder = require(`role.remotebuilder`);
+var roleRemoteUpgrader = require(`role.remoteUpgrader`);
 
 const Roles = {
   harvester: roleHarvester,
@@ -20,6 +21,7 @@ const Roles = {
   colony: roleColony,
   remote: roleRemote,
   remoteBuilder: roleRemoteBuilder,
+  remoteUpgrader: roleRemoteUpgrader,
 };
 
 module.exports = Roles;

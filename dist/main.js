@@ -3,8 +3,10 @@ const roles = require(`roles`);
 module.exports.loop = function () {
   // if (Game.cpu.bucket > 5000) Game.cpu.generatePixel();
 
-  var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
-  if (tower) {
+  var towers  = [Game.getObjectById(`5efe2c0c640121b6c12e98a6`), Game.getObjectById(`5f14aa9fe27d93700ee111df`)];
+  //var tower = Game.getObjectById(`5efe2c0c640121b6c12e98a6`);
+  for (var t in towers){
+    var tower = towers[t];
     var closestDamagedStructure = false;
     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (closestHostile) {
@@ -61,7 +63,7 @@ module.exports.loop = function () {
       class: new roles.harvester(`remoteHarv`, `5bbcad0d9099fc012e6368a1`, false),
     },
     remoteBuilder: {
-      want: 1,
+      want: 3,
       class: new roles.remoteBuilder(
         `remoteBuilder`,
         `5bbcad0d9099fc012e6368a1`,
@@ -69,7 +71,11 @@ module.exports.loop = function () {
     },
     upgrader: {
       want: 2,
-      class: new roles.upgrader(`5f00f7fcf440363b29879826`),
+      class: new roles.upgrader(`upgrader`,`5f00f7fcf440363b29879826`),
+    },
+    remoteUpgrader: {
+      want: 2,
+      class: new roles.remoteUpgrader(`remoteUpgrader`,`5f158d7f36cc282eaa93641e`),
     },
     hauler: {
       want: 5,

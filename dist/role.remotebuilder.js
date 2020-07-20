@@ -15,6 +15,13 @@ class Harvester extends Creep {
     this.script = function (creep) {
       roleHarvester.run(creep);
     };
+    this.spawn = function () {
+      Game.spawns[`Spawn2`].spawnCreep(
+        this.size,
+        this.name + Game.time.toString(),
+        { memory: this.memory },
+      );
+    };
   }
 }
 
